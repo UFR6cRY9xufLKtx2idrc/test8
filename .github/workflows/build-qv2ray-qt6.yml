@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         ui_type: [QWidget]
-        platform: [windows-latest]
+        platform: [ubuntu-latest, macos-latest, windows-latest]
         arch: [x64]
         build_type: [RelWithDebInfo, Release]
         qt_version: [6.4.2]
@@ -176,21 +176,15 @@ jobs:
         run: |
           cd build
           cd AppDir
-          mkdir -p ./usr/{lib,optional}/
-          mkdir -p ./usr/optional/libstdc++/
-          mkdir -p ./usr/optional/libgcc_s/
-          wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/AppRun-patched-x86_64 -O AppRun
-          wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/exec-x86_64.so -O ./usr/optional/exec.so
+          mkdir -p ./usr/lib/
           chmod a+x AppRun
-          cp -fv /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ./usr/optional/libstdc++/
-          cp -fv /lib/x86_64-linux-gnu/libgcc_s.so.1 ./usr/optional/libgcc_s/
           cp -fv /usr/lib/x86_64-linux-gnu/{libssl.so.1.1,libcrypto.so.1.1} ./usr/lib/
           cd ..
-          wget https://github.com/probonopd/linuxdeployqt/releases/download/6/linuxdeployqt-6-x86_64.AppImage
-          chmod +x ./linuxdeployqt-6-x86_64.AppImage
-          ./linuxdeployqt-6-x86_64.AppImage AppDir/usr/share/applications/qv2ray.desktop \
-            -unsupported-allow-new-glibc \
+          wget https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage
+          chmod +x ./linuxdeployqt-continuous-x86_64.AppImage
+          ./linuxdeployqt-continuous-x86_64.AppImage AppDir/usr/share/applications/qv2ray.desktop \
             -appimage \
+            -unsupported-allow-new-glibc \
             -no-strip \
             -always-overwrite \
             -extra-plugins=iconengines,imageformats,platforminputcontexts

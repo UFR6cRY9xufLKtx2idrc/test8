@@ -181,7 +181,7 @@ namespace Qv2ray::core::kernel
             KernelVersioning_(output);
             return { true, SplitLines(output).at(0) };
         }
-        else if (!output.startsWith("flag"))
+        else if (!output.startsWith("flag provided but not defined"))
         {
             // find 5.0+ cli api
             std::tie(exitCode, output) = RunProcess_(corePath, {"version"});
@@ -223,7 +223,7 @@ namespace Qv2ray::core::kernel
             switch (version)
             {
                 case Qv2rayConfig_Kernel::FOUR: args = QStringList{ "-test", "-config", path }; break;
-                case Qv2rayConfig_Kernel::FIVE: args = QStringList{ "test", "-config", path }; break;
+                case Qv2rayConfig_Kernel::FIVE: args = QStringList{ "test", "-c", path, "-format", "jsonv5" }; break;
                 case Qv2rayConfig_Kernel::UNKNOWN:
                 {
                     // actually impossible, cause `ValidateConfig`'s already
